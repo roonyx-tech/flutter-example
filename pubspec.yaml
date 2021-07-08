@@ -1,0 +1,29 @@
+name: e_shop_flutter
+description: EShop.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  equatable: ^2.0.3
+  shared_preferences: ^2.0.6
+  google_fonts: ^2.1.0
+  flutter_svg: ^0.22.0
+  flutter_bloc: ^7.0.1
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/ic/
+
+  uses-material-design: true
+  
