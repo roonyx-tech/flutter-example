@@ -7,6 +7,15 @@ abstract class PurchasesState extends Equatable {
 
 class PurchasesInitial extends PurchasesState {}
 
+class PurchasesList extends PurchasesState {
+  final List<PurchaseData> list;
+
+  PurchasesList(this.list);
+
+  @override
+  List<Object?> get props => [list];
+}
+
 class PurchasesThemeChanged extends PurchasesState {
   final ThemeState themeState;
 

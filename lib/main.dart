@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
 
   FloatingActionButton _buildFAB() {
     return FloatingActionButton(
-      onPressed: () => _purchasesCubit.addPurchase(),
+      onPressed: _purchasesCubit.addPurchase,
       child: SvgPicture.asset(IC_SHOPPING_CART),
     );
   }

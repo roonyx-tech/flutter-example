@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:e_shop_flutter/data/local/database.dart';
+import 'package:e_shop_flutter/data/local/repositories/purchase_repository.dart';
 import '../../data/app_settings.dart';
 import '../../base/assets_provider.dart';
 import '../../base/base_themes.dart';
@@ -51,6 +53,7 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   PurchasesCubit() : super(PurchasesInitial());
 
   AppSettings _settings = AppSettings.getInstance();
+  PurchaseRepository _repository = PurchaseRepository.getInstance();
 
   ThemeState _theme = ThemeState.dark;
   String get themeIc => _theme.getAssert();
@@ -60,9 +63,13 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   void init() async {
     _theme = await _settings.getTheme();
     emit(PurchasesThemeChanged(_theme));
+    emit(PurchasesList(await _repository.getPurchases()));
   }
 
-  void addPurchase() {}
+  void addPurchase() async {
+    await _repository.addPurchase("ss", 2.0);
+    emit(PurchasesList(await _repository.getPurchases()));
+  }
 
   void changeThemeMode() {
     _theme = _theme == ThemeState.dark ? ThemeState.light : ThemeState.dark;
