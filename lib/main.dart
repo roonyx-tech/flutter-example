@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    _purchasesCubit = PurchasesCubit();
+    _purchasesCubit = PurchasesCubit()..init();
     super.initState();
   }
 

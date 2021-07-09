@@ -1,23 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DataProvider {
-
-  // TODO Singleton
-
+abstract class DataProvider {
+  @protected
   Future<T> get<T>(String key, T defaultValue) async {
     var prefs = await SharedPreferences.getInstance();
 
     if (defaultValue is String) {
-      return prefs.getString(key) as T ?? defaultValue;
+      return (prefs.getString(key)?? defaultValue) as T;
     } else if (defaultValue is int) {
-      return prefs.getInt(key) as T ?? defaultValue;
+      return (prefs.getInt(key) ?? defaultValue) as T ;
     } else if (defaultValue is bool) {
-      return prefs.getBool(key) as T ?? defaultValue;
+      return (prefs.getBool(key) ?? defaultValue) as T ;
     } else
       throw 'This type:${defaultValue.runtimeType} doesn\'t supported';
   }
 
-  void save<T>(String key, T value) async {
+  @protected
+  Future<void> save<T>(String key, T value) async {
     var prefs = await SharedPreferences.getInstance();
 
     if (value is int) {
