@@ -1,4 +1,4 @@
-import '../ui/purchases/purchases_cubit.dart';
+import '../ui/main/main_cubit.dart';
 
 import 'data_provider.dart';
 

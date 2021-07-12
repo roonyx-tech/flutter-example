@@ -15,12 +15,3 @@ class PurchasesList extends PurchasesState {
   @override
   List<Object?> get props => [list];
 }
-
-class PurchasesThemeChanged extends PurchasesState {
-  final ThemeState themeState;
-
-  PurchasesThemeChanged(this.themeState);
-
-  @override
-  List<Object?> get props => [themeState];
-}

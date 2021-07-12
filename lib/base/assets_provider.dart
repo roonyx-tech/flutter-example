@@ -2,3 +2,4 @@
 const String IC_SUN = "assets/ic/sun.svg";
 const String IC_MOON = "assets/ic/moon.svg";
 const String IC_SHOPPING_CART = "assets/ic/shopping_cart.svg";
+const String IC_GO_BACK = "assets/ic/go_back.svg";
