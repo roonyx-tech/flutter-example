@@ -248,13 +248,13 @@ class $PurchaseTable extends Purchase
 }
 
 class ItemData extends DataClass implements Insertable<ItemData> {
-  final int id;
+  final int? id;
   final String name;
   final int count;
   final double price;
   final int purchaseId;
   ItemData(
-      {required this.id,
+      {this.id,
       required this.name,
       required this.count,
       required this.price,
@@ -263,8 +263,7 @@ class ItemData extends DataClass implements Insertable<ItemData> {
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return ItemData(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
       count: const IntType()
@@ -278,7 +277,9 @@ class ItemData extends DataClass implements Insertable<ItemData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
     map['name'] = Variable<String>(name);
     map['count'] = Variable<int>(count);
     map['price'] = Variable<double>(price);
@@ -288,7 +289,7 @@ class ItemData extends DataClass implements Insertable<ItemData> {
 
   ItemCompanion toCompanion(bool nullToAbsent) {
     return ItemCompanion(
-      id: Value(id),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: Value(name),
       count: Value(count),
       price: Value(price),
@@ -300,7 +301,7 @@ class ItemData extends DataClass implements Insertable<ItemData> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return ItemData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<int?>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       count: serializer.fromJson<int>(json['count']),
       price: serializer.fromJson<double>(json['price']),
@@ -311,7 +312,7 @@ class ItemData extends DataClass implements Insertable<ItemData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<int?>(id),
       'name': serializer.toJson<String>(name),
       'count': serializer.toJson<int>(count),
       'price': serializer.toJson<double>(price),
@@ -361,7 +362,7 @@ class ItemData extends DataClass implements Insertable<ItemData> {
 }
 
 class ItemCompanion extends UpdateCompanion<ItemData> {
-  final Value<int> id;
+  final Value<int?> id;
   final Value<String> name;
   final Value<int> count;
   final Value<double> price;
@@ -382,7 +383,7 @@ class ItemCompanion extends UpdateCompanion<ItemData> {
   })  : name = Value(name),
         purchaseId = Value(purchaseId);
   static Insertable<ItemData> custom({
-    Expression<int>? id,
+    Expression<int?>? id,
     Expression<String>? name,
     Expression<int>? count,
     Expression<double>? price,
@@ -398,7 +399,7 @@ class ItemCompanion extends UpdateCompanion<ItemData> {
   }
 
   ItemCompanion copyWith(
-      {Value<int>? id,
+      {Value<int?>? id,
       Value<String>? name,
       Value<int>? count,
       Value<double>? price,
@@ -416,7 +417,7 @@ class ItemCompanion extends UpdateCompanion<ItemData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<int?>(id.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -452,7 +453,7 @@ class $ItemTable extends Item with TableInfo<$ItemTable, ItemData> {
   $ItemTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
+      'id', aliasedName, true,
       typeName: 'INTEGER',
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');

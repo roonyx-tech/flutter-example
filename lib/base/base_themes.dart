@@ -5,6 +5,7 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: Colors.black,
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(backgroundColor: ACCENT_COLOR));
+
 ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.white,
     floatingActionButtonTheme:
