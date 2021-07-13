@@ -1,5 +1,7 @@
-import 'package:e_shop_flutter/data/local/database.dart';
-
+import '../../base/material_input_text.dart';
+import '../../data/local/models/item_view.dart';
+import 'add_item_dialog/additemdialog_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../base/assets_provider.dart';
 import 'addpurchase_cubit.dart';
 import '../main/main_cubit.dart';
@@ -9,7 +11,6 @@ import 'package:flutter/material.dart';
 import '../../base/base_state.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import '../../utils/string_extensions.dart';
 
 class AddPurchaseScreen extends StatefulWidget {
   static String TAG = '/AddPurchaseScreen';
@@ -29,57 +30,102 @@ class _AddPurchaseState
     super.initState();
   }
 
+  @override
+  void dispose() {
+    cubit.dispose();
+    super.dispose();
+  }
+
+  _showDeleteDialog(ItemView item) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      if (Navigator.canPop(context)) Navigator.pop(context);
+                    },
+                    child: Text(
+                      'CANCEL',
+                      style: GoogleFonts.roboto(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      cubit.deleteItem(item..count = 0);
+                      if (Navigator.canPop(context)) Navigator.pop(context);
+                    },
+                    child: Text(
+                      'DELETE',
+                      style: GoogleFonts.roboto(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ))
+              ],
+              title: Text(
+                'Are you sure you want to delete?',
+                style: GoogleFonts.roboto(
+                    fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+            ));
+  }
+
   _showAddDialog() {
+    AddItemDialogCubit dialogCubit = AddItemDialogCubit();
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text(
-              'Add item',
-              style:
-                  GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: cubit.itemNameController,
-                  style: GoogleFonts.roboto(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                  decoration: new InputDecoration(
-                      hintStyle: GoogleFonts.roboto(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                      hintText: "Name..."),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    controller: cubit.itemPriceController,
+          return BlocProvider(
+            create: (context) => dialogCubit,
+            child: BlocConsumer<AddItemDialogCubit, AddItemDialogState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return AlertDialog(
+                  title: Text(
+                    'Add item',
                     style: GoogleFonts.roboto(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                    decoration: new InputDecoration(
-                        hintStyle: GoogleFonts.roboto(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                        hintText: "Price..."),
+                        fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                )
-              ],
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      MaterialInputText(
+                        'Name...',
+                        error: dialogCubit.nameException,
+                        controller: cubit.itemNameController,
+                        inputType: TextInputType.text,
+                        onChanged: (value) => dialogCubit.validateName(value),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: MaterialInputText(
+                            'Price...',
+                            error: dialogCubit.priceException,
+                            controller: cubit.itemPriceController,
+                            inputType:
+                                TextInputType.numberWithOptions(decimal: true),
+                            onChanged: (value) =>
+                                dialogCubit.validatePrice(value),
+                          ))
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          if (dialogCubit.validate()) {
+                            cubit.addItem();
+                            if (Navigator.canPop(context))
+                              Navigator.pop(context);
+                          }
+                        },
+                        child: Text(
+                          'ADD',
+                          style: GoogleFonts.roboto(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ))
+                  ],
+                );
+              },
             ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    cubit.addItem();
-                    if (Navigator.canPop(context)) Navigator.pop(context);
-                  },
-                  child: Text(
-                    'ADD',
-                    style: GoogleFonts.roboto(
-                        fontSize: 18, fontWeight: FontWeight.w600),
-                  ))
-            ],
           );
         });
   }
@@ -88,16 +134,54 @@ class _AddPurchaseState
         child: ListView.builder(
             itemCount: cubit.items.length,
             itemBuilder: (context, pos) {
-              ItemData item = cubit.items[pos];
-              var price = '${item.price * item.count}'.getDecimalValue();
+              ItemView item = cubit.items[pos];
               return ListTile(
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                        onTap: () {
+                          if (--item.count > 0)
+                            cubit.updateItemCounts(item);
+                          else {
+                            item.count = 1;
+                            _showDeleteDialog(item);
+                          }
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.exposure_minus_1,
+                                color: _mainCubit.themeIcColor))),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${item.count}',
+                        style: GoogleFonts.roboto(
+                            fontSize: 24, fontWeight: FontWeight.w100),
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () {
+                          item.count++;
+                          cubit.updateItemCounts(item);
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.plus_one,
+                              color: _mainCubit.themeIcColor,
+                            ))),
+                  ],
+                ),
                 title: Text(
                   item.name,
                   style: GoogleFonts.roboto(
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 subtitle: Text(
-                  '$price ₽',
+                  '${item.normalPrice} ₽',
                   style: GoogleFonts.roboto(
                       fontSize: 24, fontWeight: FontWeight.w300),
                 ),
@@ -125,8 +209,9 @@ class _AddPurchaseState
         ),
       );
 
-  FloatingActionButton _floatingActionButton() =>
-      FloatingActionButton(child: Icon(Icons.add), onPressed: _showAddDialog);
+  FloatingActionButton _floatingActionButton() => FloatingActionButton(
+      child: Icon(Icons.add, color: _mainCubit.themeIcColor),
+      onPressed: _showAddDialog);
 
   Widget _purchaseName() => Container(
         width: MediaQuery.of(context).size.width,
@@ -140,18 +225,15 @@ class _AddPurchaseState
               child: ConstrainedBox(
                 constraints: BoxConstraints(minWidth: 250, maxWidth: 340),
                 child: IntrinsicWidth(
-                  stepWidth: 100,
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: cubit.purchaseNameController,
-                    style: GoogleFonts.roboto(
-                        fontSize: 32, fontWeight: FontWeight.bold),
-                    decoration: new InputDecoration(
-                        hintStyle: GoogleFonts.roboto(
-                            fontSize: 32, fontWeight: FontWeight.bold),
-                        hintText: "Enter name..."),
-                  ),
-                ),
+                    stepWidth: 100,
+                    child: MaterialInputText(
+                      'Enter name...',
+                      fontSize: 32,
+                      controller: cubit.purchaseNameController,
+                      inputType: TextInputType.text,
+                      error: cubit.purchaseNameException,
+                      onChanged: (value) => cubit.validatePurchaseName(),
+                    )),
               ),
             ),
             Padding(
@@ -172,6 +254,21 @@ class _AddPurchaseState
         ),
       );
 
+  Widget _save() => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(32),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Icon(
+              Icons.check,
+              size: 48,
+            ),
+          ),
+        ),
+      );
+
   Widget _content() => Scaffold(
         floatingActionButton: _floatingActionButton(),
         body: SafeArea(
@@ -179,7 +276,12 @@ class _AddPurchaseState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
-            children: [_purchaseName(), _todayAndSum(), _listOfItems()],
+            children: [
+              _purchaseName(),
+              _todayAndSum(),
+              _listOfItems(),
+              if (cubit.canSave) _save()
+            ],
           ),
         ),
       );
