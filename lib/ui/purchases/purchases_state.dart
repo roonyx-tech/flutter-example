@@ -8,7 +8,7 @@ abstract class PurchasesState extends Equatable {
 class PurchasesInitial extends PurchasesState {}
 
 class PurchasesList extends PurchasesState {
-  final List<PurchaseData> list;
+  final List<PurchaseView> list;
 
   PurchasesList(this.list);
 

@@ -16,10 +16,11 @@ class AddPurchaseInteractor {
       required DateTime date,
       required List<ItemView> items}) async {
     int purchaseId = await _purchaseRepository.addPurchase(
-        purchaseName, items.map((e) => e.price * e.count).toList().sum());
+        purchaseName, items.map((e) => e.price * e.count).toList().sum(),
+        date: date);
 
     List<ItemData> itemsData =
-        items.map((e) => e.mapToItemData(e, purchaseId)).toList();
+        items.map((e) => e.mapToItemData(purchaseId)).toList();
 
     await _itemsRepository.addItems(itemsData);
   }

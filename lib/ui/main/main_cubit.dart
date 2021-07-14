@@ -46,6 +46,15 @@ extension ThemeStateExt on ThemeState {
         return Colors.black;
     }
   }
+
+  Color getBackgroundColor() {
+    switch (this) {
+      case ThemeState.dark:
+        return darkTheme.scaffoldBackgroundColor;
+      case ThemeState.light:
+        return lightTheme.scaffoldBackgroundColor;
+    }
+  }
 }
 
 class MainCubit extends Cubit<MainState> {
@@ -57,6 +66,7 @@ class MainCubit extends Cubit<MainState> {
   String get themeIc => _theme.getAssert();
   ThemeData get themeData => _theme.getTheme();
   Color get themeIcColor => _theme.getIcColor();
+  Color get backgrpundColor => _theme.getBackgroundColor();
 
   void init() async {
     _theme = await _settings.getTheme();

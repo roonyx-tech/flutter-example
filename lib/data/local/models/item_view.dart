@@ -5,12 +5,9 @@ import '../../../utils/string_extensions.dart';
 import '../database.dart';
 
 extension ItemViewExtensions on ItemView {
-  ItemData mapToItemData(ItemView item, int purchaseId) {
+  ItemData mapToItemData(int purchaseId) {
     return ItemData(
-        name: item.name,
-        count: item.count,
-        price: item.price,
-        purchaseId: purchaseId);
+        name: name, count: count, price: price, purchaseId: purchaseId);
   }
 }
 
