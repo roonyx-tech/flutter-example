@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:e_shop_flutter/base/exceptions.dart';
+import 'package:e_shop_flutter/data/local/interactors/add_purchase_interactor.dart';
 import 'package:e_shop_flutter/data/local/models/item_view.dart';
+import 'package:e_shop_flutter/di/modules.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +15,8 @@ const int year = 365;
 
 class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   AddPurchaseCubit() : super(AddpurchaseInitial());
+
+  final AddPurchaseInteractor _interactor = getIt.get<AddPurchaseInteractor>();
 
   // Data
   final TextEditingController _purchaseNameController = TextEditingController();
@@ -95,5 +99,11 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
     _purchaseNameController.dispose();
     _itemNameController.dispose();
     _itemPriceController.dispose();
+  }
+
+  save() async {
+    await _interactor.addNewPurchase(
+        purchaseName: purchaseNameText, date: _date, items: _items);
+    emit(PurchaseSaved());
   }
 }

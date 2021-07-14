@@ -43,3 +43,5 @@ class PurchaseNameException extends AddPurchaseState {
   @override
   List<Object?> get props => [exception];
 }
+
+class PurchaseSaved extends AddPurchaseState {}

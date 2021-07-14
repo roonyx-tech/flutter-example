@@ -530,8 +530,8 @@ class $ItemTable extends Item with TableInfo<$ItemTable, ItemData> {
   }
 }
 
-abstract class _$MyDatabase extends GeneratedDatabase {
-  _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+abstract class _$LocalDatabase extends GeneratedDatabase {
+  _$LocalDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $PurchaseTable purchase = $PurchaseTable(this);
   late final $ItemTable item = $ItemTable(this);
   @override

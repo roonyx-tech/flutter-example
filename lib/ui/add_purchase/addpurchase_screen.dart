@@ -1,3 +1,5 @@
+import 'package:e_shop_flutter/ui/purchases/purchases_cubit.dart';
+
 import '../../res/views/material_input_text.dart';
 import '../../data/local/models/item_view.dart';
 import 'add_item_dialog/additemdialog_cubit.dart';
@@ -21,6 +23,7 @@ class AddPurchaseScreen extends StatefulWidget {
 class _AddPurchaseState
     extends BaseState<AddPurchaseScreen, AddPurchaseCubit, AddPurchaseState> {
   late MainCubit _mainCubit;
+  late PurchasesCubit _purchasesCubit;
 
   @override
   void initState() {
@@ -210,8 +213,7 @@ class _AddPurchaseState
       );
 
   FloatingActionButton _floatingActionButton() => FloatingActionButton(
-      child: Icon(Icons.add, color: _mainCubit.themeIcColor),
-      onPressed: _showAddDialog);
+      child: Icon(Icons.add, color: Colors.black), onPressed: _showAddDialog);
 
   Widget _purchaseName() => Container(
         width: MediaQuery.of(context).size.width,
@@ -257,7 +259,7 @@ class _AddPurchaseState
   Widget _save() => Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () {},
+          onTap: () => cubit.save(),
           borderRadius: BorderRadius.circular(32),
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -290,5 +292,17 @@ class _AddPurchaseState
   Widget builder(BuildContext context, AddPurchaseState state) => _content();
 
   @override
-  void listener(BuildContext context, AddPurchaseState state) {}
+  Widget build(BuildContext context) {
+    _purchasesCubit =
+        ModalRoute.of(context)?.settings.arguments as PurchasesCubit;
+    return super.build(context);
+  }
+
+  @override
+  void listener(BuildContext context, AddPurchaseState state) {
+    if (state is PurchaseSaved) {
+      _purchasesCubit.init();
+      Navigator.pop(context);
+    }
+  }
 }

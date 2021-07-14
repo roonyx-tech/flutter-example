@@ -2,6 +2,17 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import '../../../utils/string_extensions.dart';
+import '../database.dart';
+
+extension ItemViewExtensions on ItemView {
+  ItemData mapToItemData(ItemView item, int purchaseId) {
+    return ItemData(
+        name: item.name,
+        count: item.count,
+        price: item.price,
+        purchaseId: purchaseId);
+  }
+}
 
 // ignore: must_be_immutable
 class ItemView extends Equatable {

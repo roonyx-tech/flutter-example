@@ -1,3 +1,4 @@
+import 'package:e_shop_flutter/data/local/dao/items_dao/items_dao.dart';
 import 'package:e_shop_flutter/data/local/dao/purchase_dao/purchase_dao.dart';
 import 'package:e_shop_flutter/data/local/models/purchase.dart';
 import 'package:moor/ffi.dart';
@@ -19,10 +20,11 @@ LazyDatabase _openConnection() {
 }
 
 @UseMoor(tables: [Purchase, Item])
-class MyDatabase extends _$MyDatabase {
-  MyDatabase() : super(_openConnection());
+class LocalDatabase extends _$LocalDatabase {
+  LocalDatabase() : super(_openConnection());
 
   PurchaseDao get purchaseDao => PurchaseDao(this);
+  ItemsDao get itemsDao => ItemsDao(this);
 
   @override
   int get schemaVersion => 1;

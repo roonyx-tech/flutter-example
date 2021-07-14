@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_shop_flutter/data/local/database.dart';
-import 'package:e_shop_flutter/data/local/repositories/purchase_repository.dart';
-import 'package:e_shop_flutter/di/modules.dart';
-import 'package:e_shop_flutter/ui/add_purchase/addpurchase_screen.dart';
+import '../../data/local/database.dart';
+import '../../data/local/repositories/purchase_repository.dart';
+import '../../di/modules.dart';
+import '../add_purchase/addpurchase_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,6 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   }
 
   void addPurchase(BuildContext context) {
-    Navigator.pushNamed(context, AddPurchaseScreen.tag);
+    Navigator.pushNamed(context, AddPurchaseScreen.tag, arguments: this);
   }
 }
