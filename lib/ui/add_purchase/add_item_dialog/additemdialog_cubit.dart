@@ -14,6 +14,8 @@ class AddItemDialogCubit extends Cubit<AddItemDialogState> {
   ValueException? _priceException;
   ValueException? get priceException => _priceException;
 
+  bool get canAdd => _nameException == null && _priceException == null;
+
   bool validateName(String name) {
     _nameException =
         name.isEmpty ? ValueException(ValueExceptionType.empty) : null;

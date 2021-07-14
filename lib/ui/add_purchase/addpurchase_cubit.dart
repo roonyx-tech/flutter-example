@@ -69,7 +69,7 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
           double.tryParse(_itemPriceController.text.replaceAll(',', '.')) ?? 0,
     ));
     _clearItemsControllers();
-    emit(ItemsChanged(_items));
+    emit(ItemsChanged(_items, _items.length));
   }
 
   pickDate(BuildContext context) {

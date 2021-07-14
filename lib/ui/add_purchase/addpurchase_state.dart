@@ -18,11 +18,12 @@ class DateChanged extends AddPurchaseState {
 
 class ItemsChanged extends AddPurchaseState {
   final List<ItemView> items;
+  final int length;
 
-  ItemsChanged(this.items);
+  ItemsChanged(this.items, this.length);
 
   @override
-  List<Object> get props => [items];
+  List<Object> get props => [items, length];
 }
 
 class ItemChanged extends AddPurchaseState {

@@ -73,6 +73,8 @@ class _AddPurchaseState
 
   _showAddDialog() {
     AddItemDialogCubit dialogCubit = AddItemDialogCubit();
+    dialogCubit.validateName(cubit.itemNameText);
+    dialogCubit.validatePrice(cubit.itemPriceText);
     showDialog(
         context: context,
         builder: (context) {
@@ -112,14 +114,16 @@ class _AddPurchaseState
                   ),
                   actions: [
                     TextButton(
-                        onPressed: () {
-                          if (dialogCubit.validate()) {
-                            cubit.addItem();
-                            if (Navigator.canPop(context)) {
-                              Navigator.pop(context);
-                            }
-                          }
-                        },
+                        onPressed: dialogCubit.canAdd
+                            ? () {
+                                if (dialogCubit.validate()) {
+                                  cubit.addItem();
+                                  if (Navigator.canPop(context)) {
+                                    Navigator.pop(context);
+                                  }
+                                }
+                              }
+                            : null,
                         child: Text(
                           'ADD',
                           style: GoogleFonts.roboto(
