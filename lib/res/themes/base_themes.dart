@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 ThemeData darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: Colors.black,
     floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: ACCENT_COLOR));
+        FloatingActionButtonThemeData(backgroundColor: accentColor));
 
 ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.white,
     floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: ACCENT_COLOR));
+        FloatingActionButtonThemeData(backgroundColor: accentColor));

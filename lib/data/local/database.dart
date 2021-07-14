@@ -11,10 +11,7 @@ import 'models/item.dart';
 part 'database.g.dart';
 
 LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
   return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
     return VmDatabase(file);
@@ -23,14 +20,7 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [Purchase, Item])
 class MyDatabase extends _$MyDatabase {
-
-  static final MyDatabase _instance = MyDatabase._internal(_openConnection());
-
-  factory MyDatabase.getInstance() {
-    return _instance;
-  }
-
-  MyDatabase._internal(QueryExecutor executor) : super(executor);
+  MyDatabase() : super(_openConnection());
 
   PurchaseDao get purchaseDao => PurchaseDao(this);
 

@@ -5,16 +5,8 @@ import 'data_provider.dart';
 const String themeKey = 'THEME_KEY';
 
 class AppSettings extends DataProvider {
-  static final AppSettings _instance = AppSettings._internal();
 
-  factory AppSettings.getInstance() {
-    return _instance;
-  }
-
-  AppSettings._internal() {
-    // some initial
-  }
-
+  
   Future<ThemeState> getTheme() async {
     String value = await get(themeKey, ThemeState.dark.getValue());
 

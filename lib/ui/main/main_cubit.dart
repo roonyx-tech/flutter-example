@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:e_shop_flutter/di/modules.dart';
 import '../../res/assets/assets_provider.dart';
 import '../../res/themes/base_themes.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ extension ThemeStateExt on ThemeState {
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
-  final AppSettings _settings = AppSettings.getInstance();
+  final AppSettings _settings = getIt.get<AppSettings>();
 
   ThemeState _theme = ThemeState.dark;
   String get themeIc => _theme.getAssert();

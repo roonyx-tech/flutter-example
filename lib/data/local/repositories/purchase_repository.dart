@@ -1,15 +1,8 @@
 import 'package:e_shop_flutter/data/local/database.dart';
+import 'package:e_shop_flutter/di/modules.dart';
 
 class PurchaseRepository {
-  static final PurchaseRepository _instance = PurchaseRepository._internal();
-
-  factory PurchaseRepository.getInstance() {
-    return _instance;
-  }
-
-  PurchaseRepository._internal() : super();
-
-  final MyDatabase _db = MyDatabase.getInstance();
+  final MyDatabase _db = getIt.get<MyDatabase>();
 
   Future<void> addPurchase(String name, double sum, {DateTime? date}) =>
       _db.purchaseDao.insert(PurchaseData(name: name, sum: sum, date: date));
