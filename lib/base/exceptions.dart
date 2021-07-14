@@ -1,11 +1,11 @@
-enum ValueExceptionType { EMPTY, CANT_PARSE }
+enum ValueExceptionType { empty, cantParse }
 
 extension ExValueExceptionType on ValueExceptionType {
   String get value {
     switch (this) {
-      case ValueExceptionType.EMPTY:
+      case ValueExceptionType.empty:
         return 'This value can\'t be empty';
-      case ValueExceptionType.CANT_PARSE:
+      case ValueExceptionType.cantParse:
         return 'The value is wrong';
     }
   }

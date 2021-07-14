@@ -1,6 +1,6 @@
 import '../main/main_cubit.dart';
 
-import '../../base/assets_provider.dart';
+import '../../res/assets/assets_provider.dart';
 import '../../data/local/database.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'purchases_cubit.dart';
 
 class PurchasesPage extends StatefulWidget {
-  static String TAG = '/PurchasesPage';
+  static String tag = '/PurchasesPage';
 
   @override
   _PurchasesPageState createState() => _PurchasesPageState();
@@ -71,7 +71,7 @@ class _PurchasesPageState
   FloatingActionButton _buildFAB() {
     return FloatingActionButton(
       onPressed: () => cubit.addPurchase(context),
-      child: SvgPicture.asset(IC_SHOPPING_CART),
+      child: SvgPicture.asset(icShoppingCart),
     );
   }
 

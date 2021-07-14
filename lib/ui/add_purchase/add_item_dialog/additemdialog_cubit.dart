@@ -16,14 +16,14 @@ class AddItemDialogCubit extends Cubit<AddItemDialogState> {
 
   bool validateName(String name) {
     _nameException =
-        name.isEmpty ? ValueException(ValueExceptionType.EMPTY) : null;
+        name.isEmpty ? ValueException(ValueExceptionType.empty) : null;
     emit(NameErrorException(_nameException));
     return _nameException == null;
   }
 
   bool validatePrice(String price) {
     _priceException = double.tryParse(price) == null
-        ? ValueException(ValueExceptionType.CANT_PARSE)
+        ? ValueException(ValueExceptionType.cantParse)
         : null;
     emit(PriceErrorException(_priceException));
     return _priceException == null;

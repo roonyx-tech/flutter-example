@@ -9,13 +9,13 @@ import '../../utils/string_extensions.dart';
 
 part 'addpurchase_state.dart';
 
-const int YEAR = 365;
+const int year = 365;
 
 class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   AddPurchaseCubit() : super(AddpurchaseInitial());
 
   // Data
-  TextEditingController _purchaseNameController = TextEditingController();
+  final TextEditingController _purchaseNameController = TextEditingController();
   TextEditingController get purchaseNameController => _purchaseNameController;
   String get purchaseNameText => _purchaseNameController.text;
 
@@ -30,7 +30,7 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   TextEditingController get itemPriceController => _itemPriceController;
   String get itemPriceText => _itemPriceController.text;
 
-  List<ItemView> _items = [];
+  final List<ItemView> _items = [];
   List<ItemView> get items => _items;
   String get sum => '${_items.map((e) => e.price * e.count).toList().sum()}'
       .getDecimalValue();
@@ -41,11 +41,11 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   bool get canSave =>
       purchaseNameText.isNotEmpty &&
       _purchaseNameException == null &&
-      _items.length > 0;
+      _items.isNotEmpty;
 
   validatePurchaseName() {
     _purchaseNameException = purchaseNameText.isEmpty
-        ? ValueException(ValueExceptionType.EMPTY)
+        ? ValueException(ValueExceptionType.empty)
         : null;
 
     emit(PurchaseNameException(_purchaseNameException));
@@ -72,8 +72,8 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
     showDatePicker(
       context: context,
       initialDate: _date,
-      firstDate: DateTime.now().subtract(new Duration(days: YEAR)),
-      lastDate: DateTime.now().add(new Duration(days: YEAR)),
+      firstDate: DateTime.now().subtract(Duration(days: year)),
+      lastDate: DateTime.now().add(Duration(days: year)),
     ).then((value) {
       if (value != null) {
         _date = value;

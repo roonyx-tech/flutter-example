@@ -1,19 +1,18 @@
-import '../../base/material_input_text.dart';
+import '../../res/views/material_input_text.dart';
 import '../../data/local/models/item_view.dart';
 import 'add_item_dialog/additemdialog_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../base/assets_provider.dart';
+import '../../res/assets/assets_provider.dart';
 import 'addpurchase_cubit.dart';
 import '../main/main_cubit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import '../../base/base_state.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 class AddPurchaseScreen extends StatefulWidget {
-  static String TAG = '/AddPurchaseScreen';
+  static String tag = '/AddPurchaseScreen';
 
   @override
   _AddPurchaseState createState() => _AddPurchaseState();
@@ -113,8 +112,9 @@ class _AddPurchaseState
                         onPressed: () {
                           if (dialogCubit.validate()) {
                             cubit.addItem();
-                            if (Navigator.canPop(context))
+                            if (Navigator.canPop(context)) {
                               Navigator.pop(context);
+                            }
                           }
                         },
                         child: Text(
@@ -141,9 +141,9 @@ class _AddPurchaseState
                   children: [
                     InkWell(
                         onTap: () {
-                          if (--item.count > 0)
+                          if (--item.count > 0) {
                             cubit.updateItemCounts(item);
-                          else {
+                          } else {
                             item.count = 1;
                             _showDeleteDialog(item);
                           }
@@ -244,7 +244,7 @@ class _AddPurchaseState
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   child: SvgPicture.asset(
-                    IC_GO_BACK,
+                    icGoBack,
                     color: _mainCubit.themeIcColor,
                   ),
                 ),

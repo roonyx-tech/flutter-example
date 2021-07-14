@@ -9,7 +9,7 @@ class PurchaseRepository {
 
   PurchaseRepository._internal() : super();
 
-  MyDatabase _db = MyDatabase.getInstance();
+  final MyDatabase _db = MyDatabase.getInstance();
 
   Future<void> addPurchase(String name, double sum, {DateTime? date}) =>
       _db.purchaseDao.insert(PurchaseData(name: name, sum: sum, date: date));

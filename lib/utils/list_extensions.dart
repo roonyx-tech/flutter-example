@@ -5,7 +5,7 @@ extension ListExtensions on List {
 extension MathListExtensions<T extends double> on List<T> {
   double sum() {
     double result = 0;
-    this.forEach((element) => result += element);
+    forEach((element) => result += element);
     return result;
   }
 }

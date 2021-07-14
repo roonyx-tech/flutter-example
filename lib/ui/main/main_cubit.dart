@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import '../../base/assets_provider.dart';
-import '../../base/base_themes.dart';
+import '../../res/assets/assets_provider.dart';
+import '../../res/themes/base_themes.dart';
 import 'package:flutter/material.dart';
 import '../../data/app_settings.dart';
 import 'package:equatable/equatable.dart';
@@ -31,9 +31,9 @@ extension ThemeStateExt on ThemeState {
   String getAssert() {
     switch (this) {
       case ThemeState.dark:
-        return IC_SUN;
+        return icSun;
       case ThemeState.light:
-        return IC_MOON;
+        return icMoon;
     }
   }
 
@@ -50,7 +50,7 @@ extension ThemeStateExt on ThemeState {
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(MainInitial());
 
-  AppSettings _settings = AppSettings.getInstance();
+  final AppSettings _settings = AppSettings.getInstance();
 
   ThemeState _theme = ThemeState.dark;
   String get themeIc => _theme.getAssert();

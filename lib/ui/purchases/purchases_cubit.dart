@@ -10,13 +10,13 @@ part 'purchases_state.dart';
 class PurchasesCubit extends Cubit<PurchasesState> {
   PurchasesCubit() : super(PurchasesInitial());
 
-  PurchaseRepository _repository = PurchaseRepository.getInstance();
+  final PurchaseRepository _repository = PurchaseRepository.getInstance();
 
   void init() async {
     emit(PurchasesList(await _repository.getPurchases()));
   }
 
   void addPurchase(BuildContext context) {
-    Navigator.pushNamed(context, AddPurchaseScreen.TAG);
+    Navigator.pushNamed(context, AddPurchaseScreen.tag);
   }
 }

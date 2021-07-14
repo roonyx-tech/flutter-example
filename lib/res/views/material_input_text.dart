@@ -30,7 +30,7 @@ class _MaterialInputTextState extends State<MaterialInputText> {
         onChanged: widget.onChanged,
         style: GoogleFonts.roboto(
             fontSize: widget.fontSize ?? 18, fontWeight: FontWeight.bold),
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
             errorText: widget.error?.message,
             hintStyle: GoogleFonts.roboto(
                 fontSize: widget.fontSize ?? 18, fontWeight: FontWeight.bold),

@@ -1,4 +1,4 @@
-import 'package:e_shop_flutter/base/base_colors.dart';
+import 'package:e_shop_flutter/res/Colors/base_colors.dart';
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData.dark().copyWith(

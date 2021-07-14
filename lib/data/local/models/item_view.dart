@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import '../../../utils/string_extensions.dart';
 
+// ignore: must_be_immutable
 class ItemView extends Equatable {
   int id;
   String name;

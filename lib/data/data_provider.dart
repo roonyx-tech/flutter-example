@@ -12,8 +12,9 @@ abstract class DataProvider {
       return (prefs.getInt(key) ?? defaultValue) as T ;
     } else if (defaultValue is bool) {
       return (prefs.getBool(key) ?? defaultValue) as T ;
-    } else
+    } else {
       throw 'This type:${defaultValue.runtimeType} doesn\'t supported';
+    }
   }
 
   @protected
@@ -26,7 +27,8 @@ abstract class DataProvider {
       await prefs.setString(key, value);
     } else if (value is bool) {
       await prefs.setBool(key, value);
-    } else
+    } else {
       throw 'This type:${value.runtimeType} doesn\'t supported';
+    }
   }
 }

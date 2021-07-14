@@ -23,10 +23,10 @@ class _MyAppState extends BaseState<MyApp, MainCubit, MainState> {
   @override
   Widget builder(BuildContext context, MainState state) {
     return MaterialApp(
-      initialRoute: PurchasesPage.TAG,
+      initialRoute: PurchasesPage.tag,
       routes: {
-        PurchasesPage.TAG: (context) => PurchasesPage(),
-        AddPurchaseScreen.TAG: (context) => AddPurchaseScreen(),
+        PurchasesPage.tag: (context) => PurchasesPage(),
+        AddPurchaseScreen.tag: (context) => AddPurchaseScreen(),
       },
       theme: cubit.themeData,
       debugShowCheckedModeBanner: false,

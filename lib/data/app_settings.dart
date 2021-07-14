@@ -2,7 +2,7 @@ import '../ui/main/main_cubit.dart';
 
 import 'data_provider.dart';
 
-const String THEME_KEY = 'THEME_KEY';
+const String themeKey = 'THEME_KEY';
 
 class AppSettings extends DataProvider {
   static final AppSettings _instance = AppSettings._internal();
@@ -16,18 +16,19 @@ class AppSettings extends DataProvider {
   }
 
   Future<ThemeState> getTheme() async {
-    String value = await get(THEME_KEY, ThemeState.dark.getValue());
+    String value = await get(themeKey, ThemeState.dark.getValue());
 
     if (ThemeState.dark.getValue() == value) {
       return ThemeState.dark;
     } else if (ThemeState.light.getValue() == value) {
       return ThemeState.light;
-    } else
+    } else {
       throw 'This value is not of enum value';
+    }
   }
 
   void setTheme(ThemeState theme) async =>
-      await save(THEME_KEY, theme.getValue());
+      await save(themeKey, theme.getValue());
 
   @override
   Future<T> get<T>(String key, T defaultValue) {
