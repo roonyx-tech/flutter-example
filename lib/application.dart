@@ -1,4 +1,5 @@
 // ignore: overridden_fields
+import 'package:e_shop_flutter/ui/purchase/purchase_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'base/base_state.dart';
@@ -25,6 +26,7 @@ class _ApplicationState extends BaseState<Application, MainCubit, MainState> {
         routes: {
           PurchasesPage.tag: (context) => PurchasesPage(),
           AddPurchaseScreen.tag: (context) => AddPurchaseScreen(),
+          PurchaseScreen.tag: (context) => PurchaseScreen()
         },
         theme: cubit.themeData,
         debugShowCheckedModeBanner: false,

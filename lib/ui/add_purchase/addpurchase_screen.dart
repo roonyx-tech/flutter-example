@@ -23,7 +23,7 @@ class AddPurchaseScreen extends StatefulWidget {
 class _AddPurchaseState
     extends BaseState<AddPurchaseScreen, AddPurchaseCubit, AddPurchaseState> {
   late MainCubit _mainCubit;
-  late PurchasesCubit _purchasesCubit;
+  late Function _fetchPurchases;
 
   @override
   void initState() {
@@ -239,6 +239,7 @@ class _AddPurchaseState
                       inputType: TextInputType.text,
                       error: cubit.purchaseNameException,
                       onChanged: (value) => cubit.validatePurchaseName(),
+                      textFontWeight: FontWeight.bold,
                     )),
               ),
             ),
@@ -285,6 +286,9 @@ class _AddPurchaseState
             children: [
               _purchaseName(),
               _todayAndSum(),
+              SizedBox(
+                height: 16,
+              ),
               _listOfItems(),
               if (cubit.canSave) _save()
             ],
@@ -297,15 +301,21 @@ class _AddPurchaseState
 
   @override
   Widget build(BuildContext context) {
-    _purchasesCubit =
-        ModalRoute.of(context)?.settings.arguments as PurchasesCubit;
+    var argument = ModalRoute.of(context)?.settings.arguments;
+
+    if (argument is Function) {
+      _fetchPurchases = argument;
+    } else {
+      throw 'You need to put a callback for fetching purchases on PurchasesPage';
+    }
+
     return super.build(context);
   }
 
   @override
   void listener(BuildContext context, AddPurchaseState state) {
     if (state is PurchaseSaved) {
-      _purchasesCubit.init();
+      _fetchPurchases.call();
       Navigator.pop(context);
     }
   }

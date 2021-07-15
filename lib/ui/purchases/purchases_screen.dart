@@ -1,9 +1,6 @@
 import 'package:e_shop_flutter/data/local/models/purchase_view.dart';
-import 'package:e_shop_flutter/res/colors/base_colors.dart';
 import 'package:e_shop_flutter/utils/pair.dart';
-
 import '../main/main_cubit.dart';
-
 import '../../res/assets/assets_provider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'purchases_cubit.dart';
 
 class PurchasesPage extends StatefulWidget {
-  static String tag = '/PurchasesPage';
+  static const String tag = '/PurchasesPage';
 
   @override
   _PurchasesPageState createState() => _PurchasesPageState();
@@ -27,7 +24,7 @@ class _PurchasesPageState
 
   @override
   void initState() {
-    cubit = PurchasesCubit()..init();
+    cubit = PurchasesCubit()..fetch();
     _mainCubit = context.read<MainCubit>();
     super.initState();
   }
@@ -37,25 +34,33 @@ class _PurchasesPageState
         groupBy: (element) => Pair<String, String>(
             element.stringDate, cubit.getSumByDate(element.stringDate)),
         sort: false,
-        groupSeparatorBuilder: (pair) => Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                pair.first,
-                style: GoogleFonts.roboto(
-                    fontSize: 24, fontWeight: FontWeight.w400),
+        groupSeparatorBuilder: (pair) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    pair.first,
+                    style: GoogleFonts.roboto(
+                        fontSize: 24, fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    '${pair.second} ₽',
+                    style: GoogleFonts.roboto(
+                        fontSize: 24, fontWeight: FontWeight.w200),
+                  ),
+                ],
               ),
-              Text(
-                '${pair.second} ₽',
-                style: GoogleFonts.roboto(
-                    fontSize: 24, fontWeight: FontWeight.w200),
-              ),
-            ],
-          ),
+            ),
+            Divider(),
+          ],
         ),
         itemBuilder: (context, PurchaseView purchase) => ListTile(
+          onTap: () => cubit.goToPurchase(context, purchase),
           title: Text(
             purchase.name,
             style:
@@ -66,11 +71,6 @@ class _PurchasesPageState
             style:
                 GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w200),
           ),
-        ),
-        separator: Container(
-          height: 1,
-          margin: EdgeInsets.only(left: 32, right: 32),
-          color: Colors.white10,
         ),
         stickyHeaderBackgroundColor: _mainCubit.backgrpundColor,
         useStickyGroupSeparators: true, // optional

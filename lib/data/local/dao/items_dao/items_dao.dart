@@ -13,4 +13,7 @@ class ItemsDao extends DatabaseAccessor<LocalDatabase> with _$ItemsDaoMixin {
 
   Future insertValues(List<ItemData> values) async =>
       await batch((batch) => batch.insertAll(item, values));
+
+  Future<List<ItemData>> getItemsByPurchaseId(int purchaseId) =>
+      (select(item)..where((tbl) => tbl.purchaseId.equals(purchaseId))).get();
 }

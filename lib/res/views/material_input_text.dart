@@ -9,13 +9,17 @@ class MaterialInputText extends StatefulWidget {
   final TextInputType? inputType;
   final void Function(String)? onChanged;
   final double? fontSize;
+  final FontWeight? textFontWeight;
+  final FontWeight? hintFontWeight;
 
   MaterialInputText(this.hintText,
       {this.error,
       this.controller,
       this.inputType,
       this.onChanged,
-      this.fontSize})
+      this.fontSize,
+      this.textFontWeight,
+      this.hintFontWeight})
       : super();
 
   @override
@@ -29,11 +33,13 @@ class _MaterialInputTextState extends State<MaterialInputText> {
         controller: widget.controller,
         onChanged: widget.onChanged,
         style: GoogleFonts.roboto(
-            fontSize: widget.fontSize ?? 18, fontWeight: FontWeight.normal),
+            fontSize: widget.fontSize ?? 18,
+            fontWeight: widget.textFontWeight ?? FontWeight.normal),
         decoration: InputDecoration(
             errorText: widget.error?.message,
             hintStyle: GoogleFonts.roboto(
-                fontSize: widget.fontSize ?? 18, fontWeight: FontWeight.bold),
+                fontSize: widget.fontSize ?? 18,
+                fontWeight: widget.hintFontWeight ?? FontWeight.bold),
             hintText: widget.hintText),
       );
 }

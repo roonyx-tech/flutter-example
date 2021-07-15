@@ -63,6 +63,12 @@ class ItemView extends Equatable {
   factory ItemView.fromJson(String source) =>
       ItemView.fromMap(json.decode(source));
 
+  factory ItemView.fromItemData(ItemData itemData) => ItemView(
+      id: itemData.id ?? -1,
+      name: itemData.name,
+      count: itemData.count,
+      price: itemData.price);
+
   @override
   String toString() {
     return 'ItemView(id: $id, name: $name, count: $count, price: $price)';
