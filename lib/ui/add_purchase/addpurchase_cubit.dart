@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:e_shop_flutter/base/exceptions.dart';
-import 'package:e_shop_flutter/data/local/interactors/add_purchase_interactor.dart';
+import 'package:e_shop_flutter/data/local/interactors/purchase_interactor.dart';
 import 'package:e_shop_flutter/data/local/models/item_view.dart';
 import 'package:e_shop_flutter/di/modules.dart';
 import 'package:equatable/equatable.dart';
@@ -16,7 +16,7 @@ const int year = 365;
 class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   AddPurchaseCubit() : super(AddpurchaseInitial());
 
-  final AddPurchaseInteractor _interactor = getIt.get<AddPurchaseInteractor>();
+  final PurchaseInteractor _interactor = getIt.get<PurchaseInteractor>();
 
   // Data
   final TextEditingController _purchaseNameController = TextEditingController();
@@ -36,7 +36,11 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
 
   final List<ItemView> _items = [];
   List<ItemView> get items => _items;
-  String get sum => '${_items.map((e) => e.price * e.count).toList().sum()}'
+  String get sum => _items
+      .map((e) => e.price * e.count)
+      .toList()
+      .sum()
+      .toStringAsFixed(2)
       .getDecimalValue();
 
   DateTime _date = DateTime.now();

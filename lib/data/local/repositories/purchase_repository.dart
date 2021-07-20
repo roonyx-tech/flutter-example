@@ -1,14 +1,14 @@
+import 'package:e_shop_flutter/data/local/dao/purchase_dao/purchase_dao.dart';
 import 'package:e_shop_flutter/data/local/database.dart';
-import 'package:e_shop_flutter/data/local/models/purchase_view.dart';
 import 'package:e_shop_flutter/di/modules.dart';
 
 class PurchaseRepository {
-  final LocalDatabase _db = getIt.get<LocalDatabase>();
+  final PurchaseDao _db = getIt.get<LocalDatabase>().purchaseDao;
 
-  Future<int> addPurchase(String name, double sum, {DateTime? date}) =>
-      _db.purchaseDao.insert(PurchaseData(name: name, sum: sum, date: date));
+  Future<int> addPurchase(PurchaseData data) => _db.insert(data);
 
-  Future<List<PurchaseView>> getPurchases() => _db.purchaseDao
-      .getPurchases()
-      .then((value) => value.map((e) => e.mapToItemData()).toList());
+  Future<List<PurchaseData>> getPurchases() => _db.getPurchases();
+
+  Future deletePurchase(PurchaseData purchaseData) =>
+      _db.deletePurchase(purchaseData);
 }

@@ -56,7 +56,7 @@ class ItemView extends Equatable {
     );
   }
 
-  String get normalPrice => "$price".getDecimalValue();
+  String get normalPrice => price.toStringAsFixed(2).getDecimalValue();
 
   String toJson() => json.encode(toMap());
 

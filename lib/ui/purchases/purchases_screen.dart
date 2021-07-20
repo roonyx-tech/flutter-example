@@ -29,6 +29,39 @@ class _PurchasesPageState
     super.initState();
   }
 
+  _showDeleteDialog(PurchaseView purchase) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      if (Navigator.canPop(context)) Navigator.pop(context);
+                    },
+                    child: Text(
+                      'CANCEL',
+                      style: GoogleFonts.roboto(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      cubit.delete(purchase);
+                      if (Navigator.canPop(context)) Navigator.pop(context);
+                    },
+                    child: Text(
+                      'DELETE',
+                      style: GoogleFonts.roboto(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ))
+              ],
+              title: Text(
+                'Are you sure you want to delete the ${purchase.name.toUpperCase()}?',
+                style: GoogleFonts.roboto(
+                    fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+            ));
+  }
+
   Widget _purchasesRv() => GroupedListView<PurchaseView, Pair<String, String>>(
         elements: cubit.purchases,
         groupBy: (element) => Pair<String, String>(
@@ -60,6 +93,7 @@ class _PurchasesPageState
           ],
         ),
         itemBuilder: (context, PurchaseView purchase) => ListTile(
+          onLongPress: () => _showDeleteDialog(purchase),
           onTap: () => cubit.goToPurchase(context, purchase),
           title: Text(
             purchase.name,

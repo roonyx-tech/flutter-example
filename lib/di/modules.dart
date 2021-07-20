@@ -1,6 +1,6 @@
 import 'package:e_shop_flutter/data/app_settings.dart';
 import 'package:e_shop_flutter/data/local/database.dart';
-import 'package:e_shop_flutter/data/local/interactors/add_purchase_interactor.dart';
+import 'package:e_shop_flutter/data/local/interactors/purchase_interactor.dart';
 import '../data/local/repositories/items_repository.dart';
 import '../data/local/repositories/purchase_repository.dart';
 import 'package:get_it/get_it.dart';
@@ -24,5 +24,5 @@ void _localDatabaseModule() {
 }
 
 void _interactorsModule() {
-  getIt.registerFactory<AddPurchaseInteractor>(() => AddPurchaseInteractor());
+  getIt.registerFactory<PurchaseInteractor>(() => PurchaseInteractor());
 }

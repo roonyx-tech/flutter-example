@@ -4,8 +4,13 @@ import 'package:e_shop_flutter/utils/string_extensions.dart';
 import 'package:intl/intl.dart';
 
 extension PurchaseDataExtensions on PurchaseData {
-  PurchaseView mapToItemData() => PurchaseView(
+  PurchaseView mapToPurchaseView() => PurchaseView(
       id: id ?? -1, name: name, sum: sum, date: date ?? DateTime.now());
+}
+
+extension PurchaseViewExtensions on PurchaseView {
+  PurchaseData mapToPurchaseData() =>
+      PurchaseData(id: id, name: name, sum: sum, date: date);
 }
 
 class PurchaseView {
@@ -14,7 +19,7 @@ class PurchaseView {
   double sum;
   DateTime date;
 
-  String get normalSum => '$sum'.getDecimalValue();
+  String get normalSum => sum.toStringAsFixed(2).getDecimalValue();
   String get stringDate => DateFormat('dd MMMM yyyy').format(date);
 
   PurchaseView({

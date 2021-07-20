@@ -2,7 +2,7 @@ part of 'purchases_cubit.dart';
 
 abstract class PurchasesState extends Equatable {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class PurchasesInitial extends PurchasesState {}
@@ -13,5 +13,5 @@ class PurchasesList extends PurchasesState {
   PurchasesList(this.list);
 
   @override
-  List<Object?> get props => [list];
+  List<Object> get props => [list];
 }

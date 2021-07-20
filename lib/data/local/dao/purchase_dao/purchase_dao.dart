@@ -10,6 +10,8 @@ class PurchaseDao extends DatabaseAccessor<LocalDatabase>
     with _$PurchaseDaoMixin {
   PurchaseDao(LocalDatabase db) : super(db);
 
+  Future deletePurchase(PurchaseData data) => delete(purchase).delete(data);
+
   Future<List<PurchaseData>> getPurchases() async => await (select(purchase)
         ..orderBy([
           (u) => OrderingTerm(

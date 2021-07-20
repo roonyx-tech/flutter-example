@@ -28,4 +28,12 @@ class LocalDatabase extends _$LocalDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => StreamQueryUpdateRules([
+        WritePropagation(
+            on: TableUpdateQuery.onTable(purchase,
+                limitUpdateKind: UpdateKind.delete),
+            result: [TableUpdate.onTable(item, kind: UpdateKind.delete)])
+      ]);
 }

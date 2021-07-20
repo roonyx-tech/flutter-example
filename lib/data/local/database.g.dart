@@ -476,7 +476,9 @@ class $ItemTable extends Item with TableInfo<$ItemTable, ItemData> {
   final VerificationMeta _purchaseIdMeta = const VerificationMeta('purchaseId');
   late final GeneratedColumn<int?> purchaseId = GeneratedColumn<int?>(
       'purchase_id', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      typeName: 'INTEGER',
+      requiredDuringInsert: true,
+      $customConstraints: 'REFERENCES purchase(id) ON DELETE CASCADE');
   @override
   List<GeneratedColumn> get $columns => [id, name, count, price, purchaseId];
   @override
