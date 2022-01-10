@@ -103,6 +103,15 @@ unlinked_spec.ds
 # macOS
 **/macos/Flutter/GeneratedPluginRegistrant.swift
 
+# Linux
+**/linux/flutter/generated_plugin_registrant.**
+
+## Windows
+**/windows/flutter/generated_plugin_registrant.**
+
+## .g Files
+*.g.dart
+
 # Coverage
 coverage/
 

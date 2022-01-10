@@ -1,17 +1,15 @@
-import 'package:e_shop_flutter/ui/purchases/purchases_cubit.dart';
-
-import '../../res/views/material_input_text.dart';
-import '../../data/local/models/item_view.dart';
-import 'add_item_dialog/additemdialog_cubit.dart';
+import 'package:e_shop_flutter/core/base/base_state.dart';
+import 'package:e_shop_flutter/core/data/local/models/item_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../res/assets/assets_provider.dart';
-import 'addpurchase_cubit.dart';
-import '../main/main_cubit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/material.dart';
-import '../../base/base_state.dart';
-import 'package:provider/provider.dart';
+
+import '../../res/assets/assets_provider.dart';
+import '../../res/views/material_input_text.dart';
+import '../main/logic/main_cubit.dart';
+import 'add_item_dialog/add_item_dialog_cubit.dart';
+import 'logic/addpurchase_cubit.dart';
 
 class AddPurchaseScreen extends StatefulWidget {
   static String tag = '/AddPurchaseScreen';
@@ -22,12 +20,12 @@ class AddPurchaseScreen extends StatefulWidget {
 
 class _AddPurchaseState
     extends BaseState<AddPurchaseScreen, AddPurchaseCubit, AddPurchaseState> {
+
   late MainCubit _mainCubit;
   late Function _fetchPurchases;
 
   @override
   void initState() {
-    cubit = AddPurchaseCubit();
     _mainCubit = context.read<MainCubit>();
     super.initState();
   }
@@ -38,7 +36,7 @@ class _AddPurchaseState
     super.dispose();
   }
 
-  _showDeleteDialog(ItemView item) {
+  void _showDeleteDialog(ItemView item) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -71,8 +69,8 @@ class _AddPurchaseState
             ));
   }
 
-  _showAddDialog() {
-    AddItemDialogCubit dialogCubit = AddItemDialogCubit();
+  void _showAddDialog() {
+    final AddItemDialogCubit dialogCubit = AddItemDialogCubit();
     dialogCubit.validateName(cubit.itemNameText);
     dialogCubit.validatePrice(cubit.itemPriceText);
     showDialog(
@@ -105,8 +103,8 @@ class _AddPurchaseState
                             'Price...',
                             error: dialogCubit.priceException,
                             controller: cubit.itemPriceController,
-                            inputType:
-                                TextInputType.numberWithOptions(decimal: true),
+                            inputType: const TextInputType.numberWithOptions(
+                                decimal: true),
                             onChanged: (value) =>
                                 dialogCubit.validatePrice(value),
                           ))
@@ -141,7 +139,7 @@ class _AddPurchaseState
         child: ListView.builder(
             itemCount: cubit.items.length,
             itemBuilder: (context, pos) {
-              ItemView item = cubit.items[pos];
+              final ItemView item = cubit.items[pos];
               return ListTile(
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -217,9 +215,11 @@ class _AddPurchaseState
       );
 
   FloatingActionButton _floatingActionButton() => FloatingActionButton(
-      child: Icon(Icons.add, color: Colors.black), onPressed: _showAddDialog);
+        onPressed: _showAddDialog,
+        child: const Icon(Icons.add, color: Colors.black),
+      );
 
-  Widget _purchaseName() => Container(
+  Widget _purchaseName() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,7 +229,7 @@ class _AddPurchaseState
             Padding(
               padding: const EdgeInsets.only(top: 24, left: 16),
               child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 250, maxWidth: 340),
+                constraints: const BoxConstraints(minWidth: 250, maxWidth: 340),
                 child: IntrinsicWidth(
                     stepWidth: 100,
                     child: MaterialInputText(
@@ -266,8 +266,8 @@ class _AddPurchaseState
         child: InkWell(
           onTap: () => cubit.save(),
           borderRadius: BorderRadius.circular(32),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
+          child: const Padding(
+            padding: EdgeInsets.all(8),
             child: Icon(
               Icons.check,
               size: 48,
@@ -286,7 +286,7 @@ class _AddPurchaseState
             children: [
               _purchaseName(),
               _todayAndSum(),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               _listOfItems(),
@@ -301,7 +301,9 @@ class _AddPurchaseState
 
   @override
   Widget build(BuildContext context) {
-    var argument = ModalRoute.of(context)?.settings.arguments;
+
+    // TODO refactor
+    final argument = ModalRoute.of(context)?.settings.arguments;
 
     if (argument is Function) {
       _fetchPurchases = argument;

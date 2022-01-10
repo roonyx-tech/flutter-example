@@ -1,6 +1,8 @@
-import 'package:e_shop_flutter/di/modules.dart';
-import 'application.dart';
+
 import 'package:flutter/material.dart';
+
+import 'core/application.dart';
+import 'core/di/modules.dart';
 
 void main() {
   //Initialize DI
@@ -12,7 +14,7 @@ void main() {
         if (snapshot.hasData) {
           return Application();
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       }));
 }

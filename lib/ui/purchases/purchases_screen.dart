@@ -1,15 +1,12 @@
-import 'package:e_shop_flutter/data/local/models/purchase_view.dart';
-import 'package:e_shop_flutter/utils/pair.dart';
-import '../main/main_cubit.dart';
-import '../../res/assets/assets_provider.dart';
+import 'package:e_shop_flutter/core/base/base_state.dart';
+import 'package:e_shop_flutter/core/data/local/models/purchase_view.dart';
+import 'package:e_shop_flutter/core/utils/pair.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grouped_list/grouped_list.dart';
-import '../../base/base_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'purchases_cubit.dart';
+import '../../res/assets/assets_provider.dart';
+import 'logic/purchases_cubit.dart';
 
 class PurchasesPage extends StatefulWidget {
   static const String tag = '/PurchasesPage';
@@ -20,16 +17,7 @@ class PurchasesPage extends StatefulWidget {
 
 class _PurchasesPageState
     extends BaseState<PurchasesPage, PurchasesCubit, PurchasesState> {
-  late MainCubit _mainCubit;
-
-  @override
-  void initState() {
-    cubit = PurchasesCubit()..fetch();
-    _mainCubit = context.read<MainCubit>();
-    super.initState();
-  }
-
-  _showDeleteDialog(PurchaseView purchase) {
+  void _showDeleteDialog(PurchaseView purchase) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -70,7 +58,7 @@ class _PurchasesPageState
         groupSeparatorBuilder: (pair) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -89,7 +77,7 @@ class _PurchasesPageState
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
           ],
         ),
         itemBuilder: (context, PurchaseView purchase) => ListTile(
@@ -106,13 +94,13 @@ class _PurchasesPageState
                 GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w200),
           ),
         ),
-        stickyHeaderBackgroundColor: _mainCubit.backgrpundColor,
+        stickyHeaderBackgroundColor: cubit.stickyHeaderColor,
         useStickyGroupSeparators: true, // optional
         floatingHeader: false, // opt// optional
       );
 
   Widget _header() => Container(
-        margin: EdgeInsets.only(top: 24, left: 16, right: 16),
+        margin: const EdgeInsets.only(top: 24, left: 16, right: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
@@ -125,12 +113,12 @@ class _PurchasesPageState
             ),
             InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () => _mainCubit.changeThemeMode(),
+              onTap: cubit.changeTheme,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SvgPicture.asset(
-                  _mainCubit.themeIc,
-                  color: _mainCubit.themeIcColor,
+                  cubit.themeIc,
+                  color: cubit.themeIcColor,
                   width: 32,
                   height: 32,
                 ),
@@ -161,7 +149,4 @@ class _PurchasesPageState
 
   @override
   Widget builder(BuildContext context, PurchasesState state) => _content();
-
-  @override
-  void listener(BuildContext context, PurchasesState state) {}
 }
