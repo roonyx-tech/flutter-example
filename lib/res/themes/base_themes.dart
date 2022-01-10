@@ -1,18 +1,24 @@
-import 'package:e_shop_flutter/res/Colors/base_colors.dart';
+import 'package:e_shop_flutter/res/colors/base_colors.dart';
 import 'package:flutter/material.dart';
 
-ThemeData darkTheme = ThemeData.dark().copyWith(
+class CustomTheme {
+  CustomTheme._();
+
+  static ThemeData darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: Colors.black,
     dividerColor: Colors.white60,
-    dividerTheme: DividerThemeData(
+    dividerTheme: const DividerThemeData(
       color: Colors.white60,
     ),
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: accentColor));
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: CustomColors.accentColor),
+  );
 
-ThemeData lightTheme = ThemeData.light().copyWith(
+  static ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: Colors.white,
     dividerColor: Colors.black26,
-    dividerTheme: DividerThemeData(color: Colors.black26, space: 16),
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: accentColor));
+    dividerTheme: const DividerThemeData(color: Colors.black26, space: 16),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: CustomColors.accentColor),
+  );
+}

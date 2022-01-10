@@ -1,4 +1,4 @@
-import 'package:e_shop_flutter/base/exceptions.dart';
+import 'package:e_shop_flutter/core/base/exceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,7 +12,7 @@ class MaterialInputText extends StatefulWidget {
   final FontWeight? textFontWeight;
   final FontWeight? hintFontWeight;
 
-  MaterialInputText(this.hintText,
+  const MaterialInputText(this.hintText,
       {this.error,
       this.controller,
       this.inputType,

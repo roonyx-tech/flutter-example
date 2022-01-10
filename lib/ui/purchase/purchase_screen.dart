@@ -1,19 +1,17 @@
-import 'package:e_shop_flutter/data/local/models/item_view.dart';
-
-import '../../data/local/models/purchase_view.dart';
-import '../../res/assets/assets_provider.dart';
-import '../main/main_cubit.dart';
-import 'purchase_cubit.dart';
+import 'package:e_shop_flutter/core/base/base_state.dart';
+import 'package:e_shop_flutter/core/data/local/models/item_view.dart';
+import 'package:e_shop_flutter/core/data/local/models/purchase_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../base/base_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../res/assets/assets_provider.dart';
+import '../main/logic/main_cubit.dart';
+import 'logic/purchase_cubit.dart';
 
 class PurchaseScreen extends StatefulWidget {
   static const String tag = '/PurchaseScreen';
 
-  PurchaseScreen({Key? key}) : super(key: key);
+  const PurchaseScreen({Key? key}) : super(key: key);
 
   @override
   _PurchaseScreenState createState() => _PurchaseScreenState();
@@ -25,15 +23,8 @@ class _PurchaseScreenState
   late MainCubit _mainCubit;
 
   @override
-  void initState() {
-    _mainCubit = context.read<MainCubit>();
-    cubit = PurchaseCubit();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var argument = ModalRoute.of(context)?.settings.arguments;
+    final argument = ModalRoute.of(context)?.settings.arguments;
     if (argument is PurchaseView) {
       _purchase = argument;
     } else {
@@ -49,7 +40,7 @@ class _PurchaseScreenState
         child: ListView.builder(
             itemCount: cubit.items.length,
             itemBuilder: (context, pos) {
-              ItemView item = cubit.items[pos];
+              final ItemView item = cubit.items[pos];
               return ListTile(
                 trailing: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -90,7 +81,7 @@ class _PurchaseScreenState
         ),
       );
 
-  Widget _purchaseName() => Container(
+  Widget _purchaseName() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,7 +91,7 @@ class _PurchaseScreenState
             Padding(
               padding: const EdgeInsets.only(top: 24, left: 16),
               child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 250, maxWidth: 340),
+                constraints: const BoxConstraints(minWidth: 250, maxWidth: 340),
                 child: IntrinsicWidth(
                     stepWidth: 100,
                     child: Text(
@@ -136,8 +127,5 @@ class _PurchaseScreenState
       );
 
   @override
-  Widget builder(BuildContext context, state) => _content();
-
-  @override
-  void listener(BuildContext context, state) {}
+  Widget builder(BuildContext context, PurchaseState state) => _content();
 }
