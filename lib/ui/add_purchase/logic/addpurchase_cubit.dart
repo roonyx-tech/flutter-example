@@ -4,6 +4,7 @@ import 'package:e_shop_flutter/core/data/local/interactors/purchase_interactor.d
 import 'package:e_shop_flutter/core/data/local/models/item_view.dart';
 import 'package:e_shop_flutter/core/utils/list_extensions.dart';
 import 'package:e_shop_flutter/core/utils/string_extensions.dart';
+import 'package:e_shop_flutter/ui/main/logic/main_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,9 +15,13 @@ const int year = 365;
 
 class AddPurchaseCubit extends Cubit<AddPurchaseState> {
   final PurchaseInteractor _purchaseInteractor;
+  final MainCubit _mainCubit;
 
-  AddPurchaseCubit(PurchaseInteractor purchaseInteractor)
-      : _purchaseInteractor = purchaseInteractor,
+  AddPurchaseCubit({
+    required PurchaseInteractor purchaseInteractor,
+    required MainCubit mainCubit,
+  })  : _purchaseInteractor = purchaseInteractor,
+        _mainCubit = mainCubit,
         super(AddpurchaseInitial());
 
   // Data
@@ -48,6 +53,8 @@ class AddPurchaseCubit extends Cubit<AddPurchaseState> {
       purchaseNameText.isNotEmpty &&
       _purchaseNameException == null &&
       _items.isNotEmpty;
+
+  Color get themeIcColor => _mainCubit.themeIcColor;
 
   void validatePurchaseName() {
     _purchaseNameException = purchaseNameText.isEmpty

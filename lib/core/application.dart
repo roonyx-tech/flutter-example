@@ -7,7 +7,6 @@ import '../ui/main/logic/main_cubit.dart';
 import '../ui/purchases/purchases_screen.dart';
 import 'base/base_state.dart';
 
-// ignore: must_be_immutable
 class Application extends StatefulWidget {
   @override
   _ApplicationState createState() => _ApplicationState();

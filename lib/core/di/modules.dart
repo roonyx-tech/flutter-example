@@ -58,5 +58,10 @@ void _registerCubits() {
   );
 
   // AddPurchaseCubit
-  getIt.registerFactory(() => AddPurchaseCubit(getIt.get()));
+  getIt.registerFactory(
+    () => AddPurchaseCubit(
+      purchaseInteractor: getIt.get(),
+      mainCubit: getIt.get(),
+    ),
+  );
 }

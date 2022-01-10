@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../res/assets/assets_provider.dart';
 import '../../res/views/material_input_text.dart';
-import '../main/logic/main_cubit.dart';
 import 'add_item_dialog/add_item_dialog_cubit.dart';
 import 'logic/addpurchase_cubit.dart';
 
@@ -20,15 +19,7 @@ class AddPurchaseScreen extends StatefulWidget {
 
 class _AddPurchaseState
     extends BaseState<AddPurchaseScreen, AddPurchaseCubit, AddPurchaseState> {
-
-  late MainCubit _mainCubit;
   late Function _fetchPurchases;
-
-  @override
-  void initState() {
-    _mainCubit = context.read<MainCubit>();
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -157,7 +148,7 @@ class _AddPurchaseState
                         child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(Icons.exposure_minus_1,
-                                color: _mainCubit.themeIcColor))),
+                                color: cubit.themeIcColor))),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -176,7 +167,7 @@ class _AddPurchaseState
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.plus_one,
-                              color: _mainCubit.themeIcColor,
+                              color: cubit.themeIcColor,
                             ))),
                   ],
                 ),
@@ -252,7 +243,7 @@ class _AddPurchaseState
                   padding: const EdgeInsets.all(8),
                   child: SvgPicture.asset(
                     icGoBack,
-                    color: _mainCubit.themeIcColor,
+                    color: cubit.themeIcColor,
                   ),
                 ),
               ),
@@ -301,8 +292,6 @@ class _AddPurchaseState
 
   @override
   Widget build(BuildContext context) {
-
-    // TODO refactor
     final argument = ModalRoute.of(context)?.settings.arguments;
 
     if (argument is Function) {
